@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from flask import request
+import os
 
-def index(request):
-    value = request.GET.get("value")
-    response = HttpResponse("")
-    response["Set-Cookie"] = value  # Noncompliant
-    response.set_cookie("sessionid", value)  # Noncompliant
-    return response
+@app.route('/ping')
+def ping():
+    address = request.args.get("address")
+    cmd = "ping -c 1 %s" % address
+    os.popen(cmd) # Noncompliant
